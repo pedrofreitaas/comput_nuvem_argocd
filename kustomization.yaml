@@ -4,35 +4,16 @@ kind: Kustomization
 configMapGenerator:
 - name: dataset-configmap
   files:
-  - ./home/pedrooliveira/project2-pv/data_to_train/*
+    - ./home/pedrooliveira/project2-pv/data_to_train/*
 
 resources:
 - deployment-api.yaml
-- deployment-ml.yaml
-- service.yaml
 
 patches:
 - target:
     kind: Deployment
     name: 
-  patch: |-
-    spec:
-      replicas: 2
-      selector:
-      matchLabels:
-        app: pedrooliveira-api
-      template:
-        metadata:
-          labels:
-          app: pedrooliveira-api
-      spec:
-        volumes:
-        - name: project2-pv-pedrooliveira
-          persistentVolumeClaim:
-            claimName: project2-pvc-pedrooliveira
-          configMap:
-            name: dataset-configmap
-      
+  patch: |-      
       containers:
           - name: pedrooliveira-recommender
             image: freitaas/pedrooliveira-recommender:0.2
