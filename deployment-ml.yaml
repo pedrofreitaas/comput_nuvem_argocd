@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedrooliveira-deployment-ml
+  namespace: pedrooliveira
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pedrooliveira-ml
+  template:
+    metadata:
+      labels:
+        app: pedrooliveira-ml
+    spec:
+      volumes:
+      - name: project2-pv-pedrooliveira
+        persistentVolumeClaim:
+          claimName: project2-pvc-pedrooliveira
+      
+      containers:
+          - name: pedrooliveira-ml
+            image: freitaas/ml:0.1
+            imagePullPolicy: Always
+            volumeMounts:
+            - name: project2-pv-pedrooliveira
+              mountPath: /home/pedrooliveira/project2-pv

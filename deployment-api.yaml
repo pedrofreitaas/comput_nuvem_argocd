@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedrooliveira-deployment-api
+  namespace: pedrooliveira
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pedrooliveira-api
+  template:
+    metadata:
+      labels:
+        app: pedrooliveira-api
+    spec:
+      volumes:
+      - name: project2-pv-pedrooliveira
+        persistentVolumeClaim:
+          claimName: project2-pvc-pedrooliveira
+      
+      containers:
+          - name: pedrooliveira-recommender
+            image: freitaas/pedrooliveira-recommender:0.2
+            volumeMounts:
+            - name: project2-pv-pedrooliveira
+              mountPath: /home/pedrooliveira/project2-pv
