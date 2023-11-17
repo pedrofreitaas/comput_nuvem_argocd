@@ -5,18 +5,3 @@ configMapGenerator:
 - name: dataset-configmap
   files:
     - ./home/pedrooliveira/project2-pv/data_to_train/*
-
-resources:
-- deployment-api.yaml
-
-patches:
-- target:
-    kind: Deployment
-    name: 
-  patch: |-      
-      containers:
-          - name: pedrooliveira-recommender
-            image: freitaas/pedrooliveira-recommender:0.2
-            volumeMounts:
-            - name: project2-pv-pedrooliveira
-              mountPath: /home/pedrooliveira/project2-pv
