@@ -6,6 +6,7 @@ metadata:
 spec:
   template:
     spec:
+      restartPolicy: OnFailure
       volumes:
         - name: project2-pv-pedrooliveira
           persistentVolumeClaim:
