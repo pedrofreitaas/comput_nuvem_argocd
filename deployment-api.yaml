@@ -17,6 +17,8 @@ spec:
       - name: project2-pv-pedrooliveira
         persistentVolumeClaim:
           claimName: project2-pvc-pedrooliveira
+        configMap:
+            name: dataset-configmap
       
       containers:
           - name: pedrooliveira-recommender
