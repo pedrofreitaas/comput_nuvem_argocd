@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: image-updater-config
+data:
+  registries: |
+    - name: Docker Hub
+      api_url: https://registry-1.docker.io
+      ping: yes
+      credentials:
+        secret: foo/bar#creds
+        defaultns: library
