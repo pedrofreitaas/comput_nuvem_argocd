@@ -16,4 +16,5 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         cd $GITHUB_WORKSPACE
+        ls
         docker build . --file API/Dockerfile --tag freitaas/api:0.1
