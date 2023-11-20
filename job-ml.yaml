@@ -23,4 +23,4 @@ spec:
           - name: project2-pv-pedrooliveira
             mountPath: /home/pedrooliveira/project2-pv
           - name: dataset
-            mountPath: "/app/data/"
+            mountPath: "/home/datasets/"
