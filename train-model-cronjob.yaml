@@ -1,11 +1,10 @@
 apiVersion: batch/v1
-kind: CronJob
+kind: Job
 metadata:
   name: pedrooliveira-job-ml
   namespace: pedrooliveira
 spec:
-  schedule: "0 * * * *"
-  jobTemplate:
+  template:
     spec:
       restartPolicy: OnFailure
       volumes:
