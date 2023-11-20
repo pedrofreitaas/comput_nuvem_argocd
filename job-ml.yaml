@@ -20,6 +20,10 @@ spec:
         - name: pedrooliveira-ml
           image: freitaas/ml:0.1
           imagePullPolicy: Always
+          lifecycle:
+            preStop:
+              exec:
+                command: ["ls"]
           volumeMounts:
           - name: project2-pv-pedrooliveira
             mountPath: "/app/project2-pv/"
