@@ -18,4 +18,4 @@ spec:
           imagePullPolicy: Always
           volumeMounts:
           - name: project2-pv-pedrooliveira
-            mountPath: /app/project2-pv/
+            mountPath: /home/pedrooliveira/project2-pv
