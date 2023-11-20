@@ -3,7 +3,7 @@ FROM python:3.9-slim-bullseye
 COPY . /app
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+RUN pip install -r app/requirements.txt
 
 ENV FLASK_APP=API
 CMD python3 API.py
