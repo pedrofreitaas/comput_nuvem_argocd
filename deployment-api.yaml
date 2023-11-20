@@ -25,3 +25,10 @@ spec:
             volumeMounts:
             - name: project2-pv-pedrooliveira
               mountPath: /home/pedrooliveira/project2-pv
+
+          - name: pedrooliveira-wd
+            image: freitaas/wd:0.1
+            imagePullPolicy: Always
+            volumeMounts:
+            - name: project2-pv-pedrooliveira
+              mountPath: /home/pedrooliveira/project2-pv
