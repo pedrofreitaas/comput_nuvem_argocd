@@ -11,6 +11,10 @@ spec:
         - name: project2-pv-pedrooliveira
           persistentVolumeClaim:
             claimName: project2-pvc-pedrooliveira
+
+        - name: datasets
+          hostPath:
+            path: "/home/datasets/"
             
       containers:
         - name: pedrooliveira-ml
