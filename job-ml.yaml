@@ -23,3 +23,5 @@ spec:
           volumeMounts:
           - name: project2-pv-pedrooliveira
             mountPath: /home/pedrooliveira/project2-pv/
+          - name: datasets
+            mountPath: "/app/data/"
