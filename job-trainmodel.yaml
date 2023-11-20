@@ -21,6 +21,6 @@ spec:
           imagePullPolicy: Always
           volumeMounts:
           - name: project2-pv-pedrooliveira
-            mountPath: /app/project2-pv
+            mountPath: /app/project2-pv/
           - name: dataset
-            mountPath: /app/data
+            mountPath: /app/data/
