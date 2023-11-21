@@ -20,7 +20,7 @@ spec:
       
       containers:
           - name: pedrooliveira-recommender
-            image: freitaas/api:latest
+            image: freitaas/api:0.1
             imagePullPolicy: Always
             volumeMounts:
             - name: project2-pv-pedrooliveira
