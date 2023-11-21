@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pedrooliveira-recommender
+spec:
+  destination:
+    namespace: pedrooliveira
+    server: 'https://kubernetes.default.svc'
+  source:
+    repoURL: 'https://github.com/pedrofreitaas/comput_nuvem_argocd'
+    path: '.'
+    targetRevision: 'HEAD'
+  project: pedrooliveira-project
+  syncPolicy:
+    automated: null
+  dependencies:
+    - name: pedrooliveira-job-ml
+      namespace: pedrooliveira
+      kind: Job
+      apiVersion: batch/v1
+    - name: pedrooliveira-deployment-api
+      namespace: pedrooliveira
+      kind: Deployment
+      apiVersion: apps/v1
+  syncWaves:
+    - name: train
+      namespace: pedrooliveira
+      dependsOn:
+        - pedrooliveira-job-ml
+    - name: api
+      namespace: pedrooliveira
+      dependsOn:
+        - pedrooliveira-deployment-api
