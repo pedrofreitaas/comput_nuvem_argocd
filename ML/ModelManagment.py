@@ -2,7 +2,7 @@ from os.path import exists
 import sys, pickle
 from os import listdir
 from os.path import splitext
-sys.path.append("/app/project2-pv/")
+sys.path.append("project2-pv/")
 from ModelSchema import Model
 
 def create(path: str) -> Model:
@@ -18,7 +18,7 @@ def get_file_extension(file_path):
     return extension.lower()
 
 def get_file_to_train() -> str:
-    return "data/" + sys.argv[sys.argv.indexOf("-t")+1]
+    return "data/" + sys.argv[sys.argv.index("-t")+1]
 
 if __name__ == "__main__":    
     path_to_pickle = "project2-pv/model.pkl"
