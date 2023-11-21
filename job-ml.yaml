@@ -18,7 +18,7 @@ spec:
             
       containers:
         - name: pedrooliveira-ml
-          image: freitaas/ml:0.1
+          image: freitaas/ml:latest
           imagePullPolicy: Always
           command: ["python3", "ModelManagment.py", "-t", "2023_spotify_ds1.csv"]
           volumeMounts:
