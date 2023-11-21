@@ -31,14 +31,14 @@ if __name__ == "__main__":
         
         if get_file_extension(filepath) != ".csv": raise FileNotFoundError
         
-        run(f"echo Training with data: '{filepath}'.", shell=True)
+        run(f'echo "Training with data: {filepath}."', shell=True)
         
         m1.train(filepath)
             
         run(f"echo Success.", shell=True)
         
     except Exception as e:
-        run(f'echo Training failed for "{filepath}".\nReason: {e}', shell=True)
+        run(f'echo "Training failed for {filepath}.\nReason: {e}"', shell=True)
 
     save(path_to_pickle)
     print(m1)

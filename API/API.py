@@ -24,12 +24,12 @@ def load_pickled_model() -> bool:
         return True
     
     except FileNotFoundError as e:
-        run("echo Pickled model wasn't loaded because it's file doesn't exist.", shell=True)
+        run("echo Pickled model was not loaded because it is file does not exist.", shell=True)
         return False
 
 # loading for the first time.
 while not load_pickled_model(): 
-    run(f"echo Didn't find pickled model, waiting 15s to search again.", shell=True)
+    run(f"echo Did not find pickled model, waiting 15s to search again.", shell=True)
     sleep(15)
 
 # checking periodically for updates, and 
@@ -45,7 +45,7 @@ def checks_for_new_pickle() -> None:
                     load_pickled_model()
                     run(f"echo Found a new pickled model, updated API to it.", shell=True)
                 except Exception as e:
-                    run(f"echo Found update for model, but couldn't update. Reason: {e}.", shell=True)
+                    run(f"echo Found update for model, but could not update. Reason: {e}.", shell=True)
         
         except FileNotFoundError:
             run("echo ALERT: Pickled model disappeard. Using the previous loaded version.", shell=True)
