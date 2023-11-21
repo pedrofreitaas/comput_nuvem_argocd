@@ -20,4 +20,5 @@ jobs:
         docker build . --file API/Dockerfile --tag freitaas/api:0.1
         docker build . --file ML/Dockerfile --tag freitaas/ml:0.1
         docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-        docker push freitaas/api:0.1 freitaas/ml:0.1
+        docker push freitaas/api:0.1
+        docker push freitaas/ml:0.1
