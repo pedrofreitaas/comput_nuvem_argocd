@@ -25,3 +25,12 @@ spec:
             volumeMounts:
             - name: project2-pv-pedrooliveira
               mountPath: /app/data/
+      
+      lifecycle:
+        preSync:
+          exec:
+            command:
+              - kubectl
+              - apply
+              - -f
+              - job-ml.yaml
