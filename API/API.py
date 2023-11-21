@@ -2,69 +2,49 @@ from flask import Flask, request, jsonify
 import pickle
 from time import sleep
 from sys import path
-from os import listdir, stat
+from os import stat
 from multiprocessing import Process
 from subprocess import run
 path.append("data/")
 from ModelSchema import Model
 
+# globals.
+path_to_model_pickled = "data/model.pkl"
+
+# api.
 app = Flask(__name__)
 
-path_to_model_pickled = "data/model.pkl"
-app.loaded_model = False
+# processes.
+def API(model: object):
+    @app.route("/api/recommend", methods=["POST"])
+    def recommend():
+        if model == None:
+            return {"ERROR": "Server wasn't able to recommend"}.json()
 
-def load_pickled_model() -> bool:
-    try:
-        # if it throws, app.model isn't affected.
-        model_temp = pickle.load(open(path_to_model_pickled, "rb"))
-
-        app.model = model_temp
-        app.loaded_model = True
-        return True
+        playlists_ids = request.get_json(force=True)["songs"]
+        return jsonify(model.recommend(playlists_ids))
     
-    except FileNotFoundError as e:
-        run("echo Pickled model was not loaded because it is file does not exist.", shell=True)
-        return False
+    app.run(host="0.0.0.0", port=5000)
 
-# loading for the first time.
-while True:
-    if load_pickled_model(): 
-        run(f"echo Found pickled model, finishing search.", shell=True)
-        break
-
-    run(f"echo Did not find pickled model, waiting 15s to search again.", shell=True)
-    sleep(15)
-
-# checking periodically for updates, and 
-def checks_for_new_pickle() -> None:
-    timestamp = stat(path_to_model_pickled).st_mtime
+if __name__ == "__main__":
+    timestamp = None
+    update_tick_seconds = 15
 
     while True:
-        try:
-            new_tmp = stat(path_to_model_pickled).st_mtime
-            if timestamp != new_tmp:
-                timestamp = new_tmp
-                try: 
-                    load_pickled_model()
-                    run(f"echo Found a new pickled model, updated API to it.", shell=True)
-                except Exception as e:
-                    run(f"echo Found update for model, but could not update. Reason: {e}.", shell=True)
-        
+        try: new_tmp = stat(path_to_model_pickled).st_mtime
         except FileNotFoundError:
-            run("echo ALERT: Pickled model disappeard. Using the previous loaded version.", shell=True)
-        
-        sleep(15)
+            sleep(update_tick_seconds)
+            continue
 
-p = Process(target=checks_for_new_pickle)
-p.start()
+        if new_tmp != timestamp:
+            if timestamp != None and p_API.is_alive(): p_API.kill()
 
-@app.route("/api/recommend", methods=["POST"])
-def recommend():
-    if not app.loaded_model: 
-        return {"ERROR": "Server wasn't able to recommend"}.json()
+            timestamp = new_tmp
+            model = pickle.load(open(path_to_model_pickled,'rb'))
 
-    playlists_ids = request.get_json(force=True)["songs"]
-    return jsonify(app.model.recommend(playlists_ids))
+            p_API = Process(target=API, args=[model])
 
-app.run(host="0.0.0.0", port=5000)
-p.kill()
+            p_API.start()
+            run('echo Found new MODEL version. Updated API.', shell=True)
+
+        sleep(update_tick_seconds)
