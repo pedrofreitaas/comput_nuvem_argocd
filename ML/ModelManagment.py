@@ -2,6 +2,7 @@ from os.path import exists
 import sys, pickle
 from os import listdir
 from os.path import splitext
+from subprocess import run
 sys.path.append("project2-pv/")
 from ModelSchema import Model
 
@@ -30,11 +31,11 @@ if __name__ == "__main__":
         
         if get_file_extension(filepath) != ".csv": raise FileNotFoundError
         
-        print('Training with data: ' + filepath)
+        run(f"echo Training with data: '{filepath}'.", shell=True)
         
         m1.train(filepath)
             
-        print('Success.')
+        run(f"echo Success.", shell=True)
         
     except Exception as e:
         print(f'Training failed for "{filepath}".\nReason: ', e)
