@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
-import pickle, sys
+import pickle
+from time import sleep
+from sys import path
 from os import listdir
-sys.path.append("/app/data/")
+path.append("/app/data/")
 from ModelSchema import Model
 
 app = Flask(__name__)
@@ -9,14 +11,16 @@ app = Flask(__name__)
 path_to_model_pickled = "/app/data/model.pkl"
 app.loaded_model = False
 
-def load_pickled_model() -> None:
+def load_pickled_model() -> bool:
     try:
         app.model = pickle.load(open(path_to_model_pickled, "rb"))
         app.loaded_model = True
+        return True
     except FileNotFoundError as e:
         print("Pickled model wasn't loaded because it's file doesn't exist.", e)
+        return False
 
-load_pickled_model()
+while not load_pickled_model(): sleep(15)
 
 @app.route("/api/recommend", methods=["POST"])
 def recommend():
