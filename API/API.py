@@ -20,16 +20,16 @@ def load_pickled_model() -> bool:
 
         app.model = model_temp
         app.loaded_model = True
-        run(f"Found pickled model, finishing search.", shell=True)
+        run(f"echo Found pickled model, finishing search.", shell=True)
         return True
     
     except FileNotFoundError as e:
-        print("Pickled model wasn't loaded because it's file doesn't exist.", e)
+        run("echo Pickled model wasn't loaded because it's file doesn't exist.", e)
         return False
 
 # loading for the first time.
 while not load_pickled_model(): 
-    run(f"Didn't find pickled model, waiting 15s to search again.", shell=True)
+    run(f"echo Didn't find pickled model, waiting 15s to search again.", shell=True)
     sleep(15)
 
 # checking periodically for updates, and 
