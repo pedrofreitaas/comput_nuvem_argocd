@@ -28,18 +28,16 @@ if __name__ == "__main__":
     try:
         filepath = get_file_to_train()
         
-        if get_file_extension(filepath) != ".csv": continue
+        if get_file_extension(filepath) != ".csv": raise FileNotFoundError
         
         print('Training with data: ' + filepath)
         
-        try: m1.train(filepath)
-        except Exception:
-            print("Training didn't succeed for: " + filepath)
+        m1.train(filepath)
             
         print('Success.')
         
     except Exception as e:
-        print('Training failed. Reason: ', e)
+        print(f'Training failed for "{filepath}".\nReason: ', e)
 
     save(path_to_pickle)
     print(m1)
