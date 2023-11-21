@@ -15,30 +15,41 @@ app.loaded_model = False
 
 def load_pickled_model() -> bool:
     try:
-        app.model = pickle.load(open(path_to_model_pickled, "rb"))
+        # if it throws, app.model isn't affected.
+        model_temp = pickle.load(open(path_to_model_pickled, "rb"))
+
+        app.model = model_temp
         app.loaded_model = True
         run(f"Found pickled model, finishing search.", shell=True)
         return True
+    
     except FileNotFoundError as e:
         print("Pickled model wasn't loaded because it's file doesn't exist.", e)
         return False
 
+# loading for the first time.
 while not load_pickled_model(): 
     run(f"Didn't find pickled model, waiting 15s to search again.", shell=True)
     sleep(15)
 
+# checking periodically for updates, and 
 def checks_for_new_pickle() -> None:
     timestamp = stat(path_to_model_pickled).st_mtime
 
     while True:
-        new_tmp = stat(path_to_model_pickled).st_mtime
-        if timestamp != new_tmp:
-            timestamp = new_tmp
-            try: 
-                load_pickled_model()
-                run(f"Found a new pickled model, updated API to it.", shell=True)
-            except Exception as e:
-                print(f"Found update for model, but couldn't update. Reason: {e}.")
+        try:
+            new_tmp = stat(path_to_model_pickled).st_mtime
+            if timestamp != new_tmp:
+                timestamp = new_tmp
+                try: 
+                    load_pickled_model()
+                    run(f"echo Found a new pickled model, updated API to it.", shell=True)
+                except Exception as e:
+                    run(f"echo Found update for model, but couldn't update. Reason: {e}.", shell=True)
+        
+        except FileNotFoundError:
+            run("echo ALERT: Pickled model disappeard. Using the previous loaded version.", shell=True)
+        
         sleep(15)
 
 p = Process(target=checks_for_new_pickle)
