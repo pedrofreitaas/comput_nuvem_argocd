@@ -33,18 +33,22 @@ if __name__ == "__main__":
     while True:
         try: new_tmp = stat(path_to_model_pickled).st_mtime
         except FileNotFoundError:
+            run('echo Pickled model was not found. Waiting, to search again.', shell=True)
             sleep(update_tick_seconds)
             continue
 
         if new_tmp != timestamp:
             if timestamp != None and p_API.is_alive(): p_API.kill()
 
-            timestamp = new_tmp
             model = pickle.load(open(path_to_model_pickled,'rb'))
 
             p_API = Process(target=API, args=[model])
 
             p_API.start()
-            run('echo Found new MODEL version. Updated API.', shell=True)
+            
+            if timestamp == None:  run('echo Found pickled MODEL. Started API.', shell=True)
+            else: run('echo Found new MODEL version. Updated API.', shell=True)
+            
+            timestamp = new_tmp
 
         sleep(update_tick_seconds)
