@@ -38,7 +38,7 @@ if __name__ == "__main__":
         run(f"echo Success.", shell=True)
         
     except Exception as e:
-        run(f'echo Training failed for "{filepath}".\nReason: ', e)
+        run(f'echo Training failed for "{filepath}".\nReason: {e}', shell=True)
 
     save(path_to_pickle)
     print(m1)

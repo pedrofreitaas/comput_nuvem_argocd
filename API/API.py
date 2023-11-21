@@ -24,7 +24,7 @@ def load_pickled_model() -> bool:
         return True
     
     except FileNotFoundError as e:
-        run("echo Pickled model wasn't loaded because it's file doesn't exist.", e)
+        run("echo Pickled model wasn't loaded because it's file doesn't exist.", shell=True)
         return False
 
 # loading for the first time.
