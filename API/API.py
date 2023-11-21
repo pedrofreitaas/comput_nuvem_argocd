@@ -20,7 +20,6 @@ def load_pickled_model() -> bool:
 
         app.model = model_temp
         app.loaded_model = True
-        run(f"echo Found pickled model, finishing search.", shell=True)
         return True
     
     except FileNotFoundError as e:
@@ -28,7 +27,11 @@ def load_pickled_model() -> bool:
         return False
 
 # loading for the first time.
-while not load_pickled_model(): 
+while True:
+    if load_pickled_model(): 
+        run(f"echo Found pickled model, finishing search.", shell=True)
+        break
+
     run(f"echo Did not find pickled model, waiting 15s to search again.", shell=True)
     sleep(15)
 
