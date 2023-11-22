@@ -8,18 +8,16 @@ from subprocess import run
 path.append("data/")
 from ModelSchema import Model
 
-# globals.
+
 path_to_model_pickled = "data/model.pkl"
 
-# api.
-app = Flask(__name__)
-
-# processes.
 def API(model: object):
+    app = Flask(__name__)
+
     @app.route("/api/recommend", methods=["POST"])
     def recommend():
         if model == None:
-            return {"ERROR": "Server wasn't able to recommend"}.json()
+            return {"ERROR": "Server wasn't able to recommend."}.json()
 
         playlists_ids = request.get_json(force=True)["songs"]
         return jsonify(model.recommend(playlists_ids))
@@ -31,24 +29,30 @@ if __name__ == "__main__":
     update_tick_seconds = 15
 
     while True:
-        try: new_tmp = stat(path_to_model_pickled).st_mtime
+        try: 
+            new_tmp = stat(path_to_model_pickled).st_mtime
+
+            if new_tmp != timestamp:
+                if p_API.is_alive(): p_API.kill()
+
+                model = pickle.load(open(path_to_model_pickled,'rb'))
+
+                p_API = Process(target=API, args=[model])
+                p_API.start()
+                
+                if timestamp == None:  run('echo Found pickled MODEL. Started API.', shell=True)
+                else: run('echo Found new MODEL version. Updated API.', shell=True)
+                
+                timestamp = new_tmp
+
+                sleep(update_tick_seconds)
+            
         except FileNotFoundError:
-            run('echo Pickled model was not found. Waiting, to search again.', shell=True)
-            sleep(update_tick_seconds)
-            continue
+            run('echo Pickled model was not found. Running IDLE API.', shell=True)
 
-        if new_tmp != timestamp:
-            if timestamp != None and p_API.is_alive(): p_API.kill()
-
-            model = pickle.load(open(path_to_model_pickled,'rb'))
+            model = None
 
             p_API = Process(target=API, args=[model])
-
             p_API.start()
-            
-            if timestamp == None:  run('echo Found pickled MODEL. Started API.', shell=True)
-            else: run('echo Found new MODEL version. Updated API.', shell=True)
-            
-            timestamp = new_tmp
 
-        sleep(update_tick_seconds)
+            sleep(update_tick_seconds)
