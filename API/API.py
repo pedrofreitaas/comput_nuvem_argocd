@@ -8,7 +8,6 @@ from subprocess import run
 path.append("data/")
 from ModelSchema import Model
 
-
 path_to_model_pickled = "data/model.pkl"
 
 def API(model: object):
