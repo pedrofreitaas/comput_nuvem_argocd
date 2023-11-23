@@ -16,7 +16,7 @@ def API(model: object):
     @app.route("/api/recommend", methods=["POST"])
     def recommend():
         if model == None:
-            return {"ERROR": "Server wasn't able to recommend."}.json()
+            return jsonify({"ERROR": "Server wasn't able to recommend."})
 
         playlists_ids = request.get_json(force=True)["songs"]
         return jsonify(model.recommend(playlists_ids))
