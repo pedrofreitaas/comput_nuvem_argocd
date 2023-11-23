@@ -11,10 +11,9 @@ jobs:
 
     steps:
     - name: Get Version
-      env:
-        VERSION: ${cat version.txt}
       run: |
-        echo $VERSION
+        export VERSION=$(cat version.txt)
+        echo "Version: $VERSION"
 
     - uses: actions/checkout@v3
     - name: Build the Docker image
