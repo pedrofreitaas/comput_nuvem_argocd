@@ -12,7 +12,8 @@ jobs:
     steps:
     - name: Get Version
       run: |
-        export VERSION=$(cat ../../version.txt)
+        cd $GITHUB_WORKSPACE
+        export VERSION=$(cat version.txt)
         echo "Version: $VERSION"
 
     - uses: actions/checkout@v3
@@ -30,6 +31,8 @@ jobs:
 
     - name: Upd Version
       run: |
-        rm ../../version.txt
-        touch ../../version.txt
-        echo ($VERSION+1) > ../../version.txt
+        cd $GITHUB_WORKSPACE
+        export NEW_VERSION=$($VERSION+1)
+        rm version.txt
+        touch version.txt
+        echo ($NEW_VERSION) > version.txt
