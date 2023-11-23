@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: pedrooliveira-job-ml
+  name: pedrooliveira-job-ml-TESTE
   namespace: pedrooliveira
 spec:
   template:
