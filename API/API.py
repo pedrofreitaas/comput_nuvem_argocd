@@ -37,7 +37,6 @@ if __name__ == "__main__":
                 if p_API.is_alive(): p_API.kill()
 
                 model = pickle.load(open(path_to_model_pickled,'rb'))
-
                 p_API = Process(target=API, args=[model])
                 p_API.start()
                 
@@ -53,8 +52,7 @@ if __name__ == "__main__":
             if p_API.is_alive(): continue
 
             # setting IDLE API.
-            run('echo Pickled model was not found. Running IDLE API.', shell=True)
-
             p_API.start()
+            run('echo Pickled model was not found. Running IDLE API.', shell=True)
 
             sleep(update_tick_seconds)
