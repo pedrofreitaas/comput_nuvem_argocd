@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pedrooliveira-deployment-api-test2
+  name: pedrooliveira-deployment-api-teste
   namespace: pedrooliveira
 spec:
   replicas: 2
