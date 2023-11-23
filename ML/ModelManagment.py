@@ -1,6 +1,6 @@
 from os.path import exists
 import sys, pickle
-from os import listdir
+from os import listdir, remove
 from os.path import splitext
 from subprocess import run
 sys.path.append("project2-pv/")
@@ -13,7 +13,10 @@ def create(path: str) -> Model:
     run('echo Using existing model.', shell=True)
     return pickle.load(open(path, 'rb'))
 
-def save(path) -> None: 
+def save(path) -> None:
+    try: remove(path)
+    except FileNotFoundError: pass
+
     with open(path, 'wb') as f:
         pickle.dump(m1, f)
 
@@ -45,9 +48,9 @@ if __name__ == "__main__":
         
         m1.train(filepath)
             
-        run(f"echo Success.", shell=True)
-
         save(path_to_pickle)
+
+        run(f"echo Success. Saved new model.", shell=True)
         
     except Exception as e:
         run(f'echo "Training failed for {filepath}. Reason: {e}"', shell=True)
