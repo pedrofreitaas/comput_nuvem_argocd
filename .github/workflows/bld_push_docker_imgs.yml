@@ -6,27 +6,23 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Extract semantic version
-      id: semver
-      env:
-        export TAG: ${{ steps.semver.outputs.tag }}
-      uses: semantic-release/semantic-release-github@v1
-      run: echo $TAG
-      
-    - uses: actions/checkout@v3
     - name: Build the Docker image
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        VERSION: latest
       run: |
         cd $GITHUB_WORKSPACE
-        docker build . --file API/Dockerfile --tag freitaas/api:$VERSION
-        docker build . --file ML/Dockerfile --tag freitaas/ml:$VERSION
+        docker build . --file API/Dockerfile --tag freitaas/api:${{vars.VERSION_DOCKER_IMAGES}}
+        docker build . --file ML/Dockerfile --tag freitaas/ml:${{vars.VERSION_DOCKER_IMAGES}}
         docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-        docker push freitaas/api:$VERSION
-        docker push freitaas/ml:$VERSION
+        docker push freitaas/api:${{vars.VERSION_DOCKER_IMAGES}}
+        docker push freitaas/ml:${{vars.VERSION_DOCKER_IMAGES}}
+      
+    - name: Update VERSION_DOCKER_IMAGES
+      uses: actions/set-env@v1
+      with:
+        name: VERSION_DOCKER_IMAGES
+        value: $((VERSION_DOCKER_IMAGES + 1))
