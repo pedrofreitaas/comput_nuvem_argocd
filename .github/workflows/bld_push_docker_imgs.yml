@@ -20,9 +20,3 @@ jobs:
         docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
         docker push freitaas/api:${{vars.VERSION_DOCKER_IMAGES}}
         docker push freitaas/ml:${{vars.VERSION_DOCKER_IMAGES}}
-      
-    - name: Set env
-      run: echo "VERSION_DOCKER_IMAGES=$(echo $VERSION_DOCKER_IMAGES+1)" >> $GITHUB_VARS
-    
-    - name: Test
-      run: echo $VERSION_DOCKER_IMAGES
