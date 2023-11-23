@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Get Version
+      env:
+        VERSION: ${cat version.txt}
+      run: |
+        echo $VERSION
+
     - uses: actions/checkout@v3
     - name: Build the Docker image
       env:
