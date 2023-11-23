@@ -7,7 +7,7 @@ sys.path.append("project2-pv/")
 from ModelSchema import Model
 
 def create(path: str) -> Model:
-    if not exists(path): return Model()
+    if not exists(path) or asked_for_reinit(): return Model()
     return pickle.load(open(path, 'rb'))
 
 def save(path) -> None: 
@@ -20,6 +20,9 @@ def get_file_extension(file_path):
 
 def get_file_to_train() -> str:
     return "data/" + sys.argv[sys.argv.index("-t")+1]
+
+def asked_for_reinit() -> bool:
+    return sys.argv.index("-r") != -1
 
 if __name__ == "__main__":    
     path_to_pickle = "project2-pv/model.pkl"
