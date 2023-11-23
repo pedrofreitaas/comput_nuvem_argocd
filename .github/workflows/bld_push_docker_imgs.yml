@@ -19,7 +19,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
 
-        echo $VERSION
+        echo "VERSÃO=$VERSION"
 
         docker build . --file API/Dockerfile --tag freitaas/api:latest
         docker build . --file ML/Dockerfile --tag freitaas/ml:latest
