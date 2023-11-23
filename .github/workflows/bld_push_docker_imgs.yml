@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Set env
-      run: echo ${{var.VERSION_DOCKER_IMAGES}}
+      run: echo ${{vars.VERSION_DOCKER_IMAGES}}
 
     - uses: actions/checkout@v3
     - name: Build the Docker image
