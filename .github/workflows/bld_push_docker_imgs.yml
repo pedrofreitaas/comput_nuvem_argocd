@@ -10,6 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Extract semantic version
+      id: semver
+      env:
+        export TAG: ${{ steps.semver.outputs.tag }}
+      uses: semantic-release/semantic-release-github@v1
+      run: echo $TAG
+      
     - uses: actions/checkout@v3
     - name: Build the Docker image
       env:
