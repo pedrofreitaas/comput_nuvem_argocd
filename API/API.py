@@ -3,6 +3,7 @@ import pickle
 from time import sleep
 from sys import path
 from os import stat
+from os.path import exists
 from multiprocessing import Process
 from subprocess import run
 path.append("data/")
@@ -29,7 +30,9 @@ if __name__ == "__main__":
     p_API = Process(target=API, args=[None])
 
     while True:
-        try: 
+        if p_API.is_alive(): run("echo Searching for new version.", shell=True)
+
+        if exists(path_to_model_pickled):
             new_tmp = stat(path_to_model_pickled).st_mtime
 
             if new_tmp != timestamp:
@@ -45,14 +48,9 @@ if __name__ == "__main__":
                 
                 timestamp = new_tmp
 
-                sleep(update_tick_seconds)
-            
-        except FileNotFoundError:
-            # IDLE API already running.
-            if p_API.is_alive(): continue
-
+        elif not p_API.is_alive():
             # setting IDLE API.
             p_API.start()
             run('echo Pickled model was not found. Running IDLE API.', shell=True)
 
-            sleep(update_tick_seconds)
+        sleep(update_tick_seconds)
