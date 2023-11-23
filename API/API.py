@@ -40,7 +40,7 @@ if __name__ == "__main__":
                 p_API = Process(target=API, args=[model])
                 p_API.start()
                 
-                if timestamp == None:  run('echo Found pickled MODEL. Started API.', shell=True)
+                if timestamp == None:  run('echo Found pickled MODEL. Started API!', shell=True)
                 else: run('echo Found new MODEL version. Updated API.', shell=True)
                 
                 timestamp = new_tmp
