@@ -7,7 +7,9 @@ sys.path.append("project2-pv/")
 from ModelSchema import Model
 
 def create(path: str) -> Model:
-    if not exists(path) or asked_for_reinit(): return Model()
+    if not exists(path) or asked_for_reinit(): 
+        print('Created new model.')
+        return Model()
     return pickle.load(open(path, 'rb'))
 
 def save(path) -> None: 
@@ -22,7 +24,11 @@ def get_file_to_train() -> str:
     return "data/" + sys.argv[sys.argv.index("-t")+1]
 
 def asked_for_reinit() -> bool:
-    return sys.argv.index("-r") != -1
+    try: 
+        i = sys.argv.index("-r")
+        return True
+    except ValueError:
+        return False
 
 if __name__ == "__main__":    
     path_to_pickle = "project2-pv/model.pkl"
@@ -39,9 +45,10 @@ if __name__ == "__main__":
         m1.train(filepath)
             
         run(f"echo Success.", shell=True)
+
+        save(path_to_pickle)
         
     except Exception as e:
         run(f'echo "Training failed for {filepath}. Reason: {e}"', shell=True)
 
-    save(path_to_pickle)
     print(m1)
