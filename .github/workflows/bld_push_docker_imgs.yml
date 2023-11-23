@@ -15,7 +15,7 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        VERSION: ${latest}
+        VERSION: $latest
       run: |
         cd $GITHUB_WORKSPACE
         docker build . --file API/Dockerfile --tag freitaas/api:$VERSION
