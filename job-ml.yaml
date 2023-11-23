@@ -20,7 +20,7 @@ spec:
         - name: pedrooliveira-ml
           image: freitaas/ml:latest
           imagePullPolicy: Always
-          command: ["python3", "ModelManagment.py", "-t", "2023_spotify_ds2.csv", "-r"]
+          command: ["python3", "ModelManagment.py", "-t", "2023_spotify_ds1.csv"]
           volumeMounts:
           - name: project2-pv-pedrooliveira
             mountPath: "/app/project2-pv/"
