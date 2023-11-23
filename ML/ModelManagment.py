@@ -8,8 +8,9 @@ from ModelSchema import Model
 
 def create(path: str) -> Model:
     if not exists(path) or asked_for_reinit(): 
-        print('Created new model.')
+        run('echo Created new model.', shell=True)
         return Model()
+    run('echo Using existing model.', shell=True)
     return pickle.load(open(path, 'rb'))
 
 def save(path) -> None: 
