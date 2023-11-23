@@ -15,14 +15,13 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        VERSION: ${(cat version.txt)}
       run: |
         cd $GITHUB_WORKSPACE
-
-        echo "VERSÃO=$VERSION"
-
         docker build . --file API/Dockerfile --tag freitaas/api:latest
         docker build . --file ML/Dockerfile --tag freitaas/ml:latest
         docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
         docker push freitaas/api:latest
         docker push freitaas/ml:latest
+
+        export VERSION=$(cat version.txt)
+        echo "VERSÃO=$VERSION"
