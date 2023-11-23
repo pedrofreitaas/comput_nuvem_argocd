@@ -11,7 +11,9 @@ jobs:
 
     steps:
     - name: Set env
-      run: echo ${{vars.VERSION_DOCKER_IMAGES}}
+      run: |
+        echo ${{vars.VERSION_DOCKER_IMAGES}}
+        echo "VERSION_DOCKER_IMAGES=2" >> $GITHUB_VARS
 
     - uses: actions/checkout@v3
     - name: Build the Docker image
