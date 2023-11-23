@@ -15,11 +15,10 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        TAG: ${GITHUB_RUN_ID}
       run: |
         cd $GITHUB_WORKSPACE
-        docker build . --file API/Dockerfile --tag freitaas/api:$TAG
-        docker build . --file ML/Dockerfile --tag freitaas/ml:$TAG
+        docker build . --file API/Dockerfile --tag freitaas/api:$GITHUB_RUN_ID
+        docker build . --file ML/Dockerfile --tag freitaas/ml:$GITHUB_RUN_ID
         docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-        docker push freitaas/api:$TAG
-        docker push freitaas/ml:$TAG
+        docker push freitaas/api:$GITHUB_RUN_ID
+        docker push freitaas/ml:$GITHUB_RUN_ID
