@@ -29,7 +29,7 @@ jobs:
         docker push freitaas/ml:$VERSION
 
       - name: Upd Version
-      run: |
-        rm ../../version.txt
-        touch ../../version.txt
-        echo ($VERSION+1) > ../../version.txt
+        run: |
+          rm ../../version.txt
+          touch ../../version.txt
+          echo ($VERSION+1) > ../../version.txt
