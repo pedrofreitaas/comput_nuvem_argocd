@@ -15,7 +15,7 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        TAG: $(date)
+        TAG: ${GITHUB_RUN_ID}
       run: |
         cd $GITHUB_WORKSPACE
         docker build . --file API/Dockerfile --tag freitaas/api:$TAG
