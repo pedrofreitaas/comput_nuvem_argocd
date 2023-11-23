@@ -10,6 +10,7 @@ def create(path: str) -> Model:
     if not exists(path) or asked_for_reinit(): 
         run('echo Created new model.', shell=True)
         return Model()
+
     run('echo Using existing model.', shell=True)
     return pickle.load(open(path, 'rb'))
 
@@ -25,7 +26,10 @@ def get_file_extension(file_path):
     return extension.lower()
 
 def get_file_to_train() -> str:
-    return "data/" + sys.argv[sys.argv.index("-t")+1]
+    try:
+        return "data/" + sys.argv[sys.argv.index("-t")+1]
+    except ValueError:
+        return "data/"
 
 def asked_for_reinit() -> bool:
     try: 
