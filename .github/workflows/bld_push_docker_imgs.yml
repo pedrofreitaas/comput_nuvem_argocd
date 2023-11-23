@@ -21,8 +21,8 @@ jobs:
         docker push freitaas/api:${{vars.VERSION_DOCKER_IMAGES}}
         docker push freitaas/ml:${{vars.VERSION_DOCKER_IMAGES}}
       
-    - name: Update VERSION_DOCKER_IMAGES
-      uses: actions/set-env@v1
-      with:
-        name: VERSION_DOCKER_IMAGES
-        value: $((VERSION_DOCKER_IMAGES + 1))
+    - name: Set env
+      run: echo "VERSION_DOCKER_IMAGES=$(echo $VERSION_DOCKER_IMAGES+1)" >> $GITHUB_VARS
+    
+    - name: Test
+      run: echo $VERSION_DOCKER_IMAGES
