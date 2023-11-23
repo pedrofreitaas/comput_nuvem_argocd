@@ -26,12 +26,14 @@ def API(model: object):
 if __name__ == "__main__":
     timestamp = None
     update_tick_seconds = 15
+    p_API = Process(target=API, args=[None])
 
     while True:
         try: 
             new_tmp = stat(path_to_model_pickled).st_mtime
 
             if new_tmp != timestamp:
+                # updating API.
                 if p_API.is_alive(): p_API.kill()
 
                 model = pickle.load(open(path_to_model_pickled,'rb'))
@@ -47,11 +49,12 @@ if __name__ == "__main__":
                 sleep(update_tick_seconds)
             
         except FileNotFoundError:
+            # IDLE API already running.
+            if p_API.is_alive(): continue
+
+            # setting IDLE API.
             run('echo Pickled model was not found. Running IDLE API.', shell=True)
 
-            model = None
-
-            p_API = Process(target=API, args=[model])
             p_API.start()
 
             sleep(update_tick_seconds)
